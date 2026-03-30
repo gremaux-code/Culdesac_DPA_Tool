@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1070 Dill Ave — DPA Qualifier</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F3EE;
+    --ink: #1A1A1A;
+    --teal: #5AA9A7;
+    --teal-mid: #3D8F8D;
+    --teal-light: #EAF4F4;
+    --rust: #C0442A;
+    --rust-light: #F9EDE9;
+    --gold: #9A7B2F;
+    --gold-light: #FBF6E8;
+    --muted: #7A7060;
+    --rule: #DDD6CC;
+    --green: #2E7D32;
+    --green-light: #E8F5E9;
+    --amber: #B45309;
+    --amber-light: #FEF3C7;
+    --red-light: #FEE2E2;
+    --red: #991B1B;
+    --blue-light: #EFF6FF;
+    --blue: #1D4ED8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: var(--teal);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .site-header .logo {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    letter-spacing: 0.01em;
+  }
+
+  .site-header .divider { color: rgba(255,255,255,0.3); }
+
+  .site-header .subtitle {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 400;
+  }
+
+  .internal-badge {
+    margin-left: auto;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.9);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  .page-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .page-title em {
+    font-style: italic;
+    color: var(--teal-mid);
+  }
+
+  .page-desc {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 36px;
+    line-height: 1.6;
+    max-width: 560px;
+  }
+
+  /* ── PROGRESS ── */
+  .progress-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 36px;
+  }
+
+  .progress-step {
+    height: 4px;
+    flex: 1;
+    background: var(--rule);
+    border-radius: 2px;
+    transition: background 0.3s;
+  }
+
+  .progress-step.active { background: var(--teal); }
+  .progress-step.done { background: var(--teal-mid); }
+
+  /* ── STEP CARD ── */
+  .step-card {
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 32px;
+    margin-bottom: 20px;
+    display: none;
+    animation: fadeUp 0.3s ease;
+  }
+
+  .step-card.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-number {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal-mid);
+    margin-bottom: 8px;
+  }
+
+  .step-question {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .step-hint {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  /* ── INPUTS ── */
+  .input-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 140px;
+  }
+
+  .input-group label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .input-group input, .input-group select {
+    border: 1.5px solid var(--rule);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    background: white;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .input-group input:focus, .input-group select:focus {
+    border-color: var(--teal);
+  }
+
+  /* ── AMI DISPLAY ── */
+  .ami-display {
+    background: var(--teal-light);
+    border: 1px solid var(--teal-mid);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    display: none;
+  }
+
+  .ami-display.visible { display: block; }
+
+  .ami-display .ami-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--teal);
+    margin-bottom: 4px;
+  }
+
+  .ami-display .ami-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: var(--teal);
+  }
+
+  .ami-display .ami-sub {
+    font-size: 12px;
+    color: var(--teal-mid);
+    margin-top: 2px;
+  }
+
+  /* ── OPTION BUTTONS ── */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .options-grid.single { grid-template-columns: 1fr; }
+  .options-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+
+  .opt-btn {
+    border: 1.5px solid var(--rule);
+    border-radius: 8px;
+    padding: 14px 18px;
+    background: white;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .opt-btn:hover {
+    border-color: var(--teal);
+    background: var(--teal-light);
+  }
+
+  .opt-btn.selected {
+    border-color: var(--teal);
+    background: var(--teal-light);
+  }
+
+  .opt-btn .opt-label {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .opt-btn .opt-sub {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* ── CHECKBOX OPTIONS ── */
+  .checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1.5px solid var(--rule);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .checkbox-item:hover { border-color: var(--teal); background: var(--teal-light); }
+  .checkbox-item.checked { border-color: var(--teal); background: var(--teal-light); }
+
+  .checkbox-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--teal);
+    cursor: pointer;
+  }
+
+  .checkbox-item .cb-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* ── NAVIGATION ── */
+  .nav-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .btn-primary {
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 28px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--teal-mid); }
+  .btn-primary:disabled { background: var(--rule); color: var(--muted); cursor: not-allowed; }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--muted);
+    border: 1.5px solid var(--rule);
+    border-radius: 6px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--ink); color: var(--ink); }
+
+  .btn-restart {
+    background: transparent;
+    color: var(--teal);
+    border: none;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+  }
+
+  /* ── RESULTS ── */
+  #results { display: none; }
+  #results.visible { display: block; animation: fadeUp 0.4s ease; }
+
+  .results-header {
+    background: var(--teal);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    color: white;
+  }
+
+  .results-header .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+
+  .results-header .total-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    opacity: 0.85;
+    margin-bottom: 4px;
+  }
+
+  .results-header .total-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    line-height: 1;
+    color: white;
+  }
+
+  .results-header .total-sub {
+    font-size: 13px;
+    opacity: 0.7;
+    margin-top: 6px;
+  }
+
+  .results-header .closing-line {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    font-size: 14px;
+    opacity: 0.9;
+  }
+
+  /* ── PROGRAM CARDS ── */
+  .programs-section {
+    margin-bottom: 20px;
+  }
+
+  .programs-section-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .program-card {
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .program-card.green { border-left: 4px solid var(--green); }
+  .program-card.amber { border-left: 4px solid var(--amber); }
+  .program-card.blue  { border-left: 4px solid var(--blue); }
+
+  .prog-info .prog-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .prog-info .prog-source {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .prog-info .prog-terms {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .prog-amount-col { text-align: right; flex-shrink: 0; }
+
+  .prog-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--ink);
+  }
+
+  .prog-badge {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+
+  .badge-forgiven { background: var(--green-light); color: var(--green); }
+  .badge-repayable { background: var(--amber-light); color: var(--amber); }
+  .badge-closing { background: var(--blue-light); color: var(--blue); }
+  .badge-loan { background: #EEF2FF; color: #4338CA; }
+
+  /* ── NOT ELIGIBLE PROGRAMS ── */
+  .not-eligible {
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 10px;
+    opacity: 0.5;
+    border-left: 4px solid var(--rule);
+  }
+
+  .not-eligible .prog-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+
+  .not-eligible .prog-reason {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* ── ZERO DOWN OPTION ── */
+  .zero-down-card {
+    background: var(--gold-light);
+    border: 1px solid #D4AF37;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+
+  .zero-down-card .zd-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .zero-down-card .zd-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .zero-down-card .zd-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .zero-down-card .zd-item {
+    font-size: 13px;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .zero-down-card .zd-item::before {
+    content: "→";
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* ── NEXT STEPS ── */
+  .next-steps {
+    background: var(--rust-light);
+    border: 1px solid #E8A090;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+
+  .next-steps .ns-title {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--rust);
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  .ns-item {
+    font-size: 13.5px;
+    color: var(--ink);
+    margin-bottom: 8px;
+    line-height: 1.5;
+    display: flex;
+    gap: 10px;
+  }
+
+  .ns-item .ns-num {
+    font-weight: 700;
+    color: var(--rust);
+    flex-shrink: 0;
+  }
+
+  /* ── CAVEATS ── */
+  .caveats {
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 20px;
+  }
+
+  .caveats-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .caveat-item {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .caveat-item::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+  }
+
+  /* ── INPUT SUMMARY ── */
+  .input-summary {
+    background: var(--teal-light);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--teal);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+  }
+
+  .input-summary span { font-weight: 500; }
+
+  .restart-row {
+    text-align: center;
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+  }
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="logo">1070 Dill Ave</div>
+  <span class="divider">·</span>
+  <div class="subtitle">1070 Dill Ave — DPA Qualifier</div>
+  <span class="internal-badge">Internal Tool</span>
+</div>
+
+<div class="container">
+
+  <h1 class="page-title">Find the right<br><span style="font-style:normal;color:var(--teal-mid)">down payment stack</span></h1>
+  <p class="page-desc">Answer a few questions to see which programs a buyer qualifies for and how much assistance is available. For internal reference and buyer conversations. Programs subject to lender approval.</p>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar">
+    <div class="progress-step active" id="prog-1"></div>
+    <div class="progress-step" id="prog-2"></div>
+    <div class="progress-step" id="prog-3"></div>
+    <div class="progress-step" id="prog-4"></div>
+    <div class="progress-step" id="prog-5"></div>
+  </div>
+
+  <!-- STEP 1: Household -->
+  <div class="step-card active" id="step-1">
+    <div class="step-number">Step 1 of 5</div>
+    <div class="step-question">Household size and income</div>
+    <div class="step-hint">Include all adults in the household — spouses and other adult members count even if not on the loan application.</div>
+
+    <div class="input-row">
+      <div class="input-group">
+        <label>Household size</label>
+        <select id="hh-size">
+          <option value="">Select...</option>
+          <option value="1">1 person</option>
+          <option value="2">2 persons</option>
+          <option value="3">3 persons</option>
+          <option value="4">4 persons</option>
+          <option value="5">5+ persons</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>Annual household income ($)</label>
+        <input type="number" id="income" placeholder="e.g. 72000" min="0" step="1000">
+      </div>
+    </div>
+
+    <div class="ami-display" id="ami-display">
+      <div class="ami-label">Estimated AMI bracket</div>
+      <div class="ami-value" id="ami-value">—</div>
+      <div class="ami-sub" id="ami-sub"></div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-primary" id="step1-next" onclick="goToStep(2)" disabled>Continue</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: First-Time Buyer -->
+  <div class="step-card" id="step-2">
+    <div class="step-number">Step 2 of 5</div>
+    <div class="step-question">First-time homebuyer?</div>
+    <div class="step-hint">"First-time" means no ownership interest in any residential or commercial property in the past 3 years. This includes a spouse or co-borrower.</div>
+
+    <div class="options-grid">
+      <button class="opt-btn" onclick="selectOption('ftb', true, this)">
+        <div class="opt-label">Yes</div>
+        <div class="opt-sub">No homeownership in past 3 years</div>
+      </button>
+      <button class="opt-btn" onclick="selectOption('ftb', false, this)">
+        <div class="opt-label">No</div>
+        <div class="opt-sub">Currently own or recently sold a home</div>
+      </button>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-primary" id="step2-next" onclick="goToStep(3)" disabled>Continue</button>
+      <button class="btn-secondary" onclick="goToStep(1)">Back</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Community Partner -->
+  <div class="step-card" id="step-3">
+    <div class="step-number">Step 3 of 5</div>
+    <div class="step-question">Community partner occupation?</div>
+    <div class="step-hint">Select all that apply. This unlocks higher assistance amounts across multiple programs.</div>
+
+    <div class="checkbox-list">
+      <label class="checkbox-item">
+        <input type="checkbox" name="occupation" value="healthcare"> 
+        <span class="cb-label">Healthcare worker — nurse, doctor, dentist, NP, NA, or other licensed provider</span>
+      </label>
+      <label class="checkbox-item">
+        <input type="checkbox" name="occupation" value="educator">
+        <span class="cb-label">Educator — teacher, paraprofessional, school staff</span>
+      </label>
+      <label class="checkbox-item">
+        <input type="checkbox" name="occupation" value="firstresponder">
+        <span class="cb-label">First responder — firefighter, law enforcement, EMT, paramedic</span>
+      </label>
+      <label class="checkbox-item">
+        <input type="checkbox" name="occupation" value="veteran">
+        <span class="cb-label">Veteran or active military</span>
+      </label>
+      <label class="checkbox-item">
+        <input type="checkbox" name="occupation" value="none">
+        <span class="cb-label">None of the above</span>
+      </label>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-primary" id="step3-next" onclick="goToStep(4)" disabled>Continue</button>
+      <button class="btn-secondary" onclick="goToStep(2)">Back</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: Credit Score -->
+  <div class="step-card" id="step-4">
+    <div class="step-number">Step 4 of 5</div>
+    <div class="step-question">Estimated credit score range?</div>
+    <div class="step-hint">This determines which loan and assistance programs are accessible. Use the middle score if three bureaus are pulled.</div>
+
+    <div class="options-grid three">
+      <button class="opt-btn" onclick="selectOption('credit', 'below600', this)">
+        <div class="opt-label">Below 600</div>
+        <div class="opt-sub">May not qualify for most programs</div>
+      </button>
+      <button class="opt-btn" onclick="selectOption('credit', '600to619', this)">
+        <div class="opt-label">600–619</div>
+        <div class="opt-sub">FHA, VA, USDA eligible</div>
+      </button>
+      <button class="opt-btn" onclick="selectOption('credit', '620to639', this)">
+        <div class="opt-label">620–639</div>
+        <div class="opt-sub">Conventional eligible</div>
+      </button>
+      <button class="opt-btn" onclick="selectOption('credit', '640to659', this)">
+        <div class="opt-label">640–659</div>
+        <div class="opt-sub">Georgia Dream eligible</div>
+      </button>
+      <button class="opt-btn" onclick="selectOption('credit', '660plus', this)">
+        <div class="opt-label">660+</div>
+        <div class="opt-sub">All programs eligible</div>
+      </button>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-primary" id="step4-next" onclick="goToStep(5)" disabled>Continue</button>
+      <button class="btn-secondary" onclick="goToStep(3)">Back</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: Liquid Assets -->
+  <div class="step-card" id="step-5">
+    <div class="step-number">Step 5 of 5</div>
+    <div class="step-question">Liquid assets (savings, checking, etc.)?</div>
+    <div class="step-hint">Some programs exclude buyers with over $25,000 in liquid assets. Do not include retirement accounts unless accessible without penalty.</div>
+
+    <div class="options-grid">
+      <button class="opt-btn" onclick="selectOption('assets', 'under35k', this)">
+        <div class="opt-label">Under $35,000</div>
+        <div class="opt-sub">Eligible for all programs</div>
+      </button>
+      <button class="opt-btn" onclick="selectOption('assets', 'over35k', this)">
+        <div class="opt-label">$35,000 or more</div>
+        <div class="opt-sub">Atlanta Housing DPA not available</div>
+      </button>
+      <button class="opt-btn" onclick="selectOption('assets', 'unknown', this)">
+        <div class="opt-label">Unknown</div>
+        <div class="opt-sub">Skip for now</div>
+      </button>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-primary" id="step5-next" onclick="showResults()" disabled>See results</button>
+      <button class="btn-secondary" onclick="goToStep(4)">Back</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="input-summary" id="input-summary"></div>
+    <div class="results-header" id="results-header"></div>
+    <div id="zero-down-section"></div>
+    <div class="programs-section">
+      <div class="programs-section-title">Eligible programs</div>
+      <div id="eligible-programs"></div>
+    </div>
+    <div id="ineligible-section"></div>
+    <div class="caveats" id="caveats-section"></div>
+    <div class="next-steps" id="next-steps-section"></div>
+    <div class="restart-row">
+      <button class="btn-restart" onclick="restart()">Start over with a different buyer</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────
+const state = {
+  hhSize: null,
+  income: null,
+  amiPct: null,
+  ftb: null,
+  isCP: false,
+  isVet: false,
+  isDoctor: false,
+  credit: null,
+  assets: null,
+};
+
+// ── AMI LIMITS (Atlanta MSA) ───────────────────────────────────
+// Source: ATL HomeNow program docs
+const ami80 = { 1: 64000, 2: 73120, 3: 82240, 4: 91360, 5: 98720 };
+const ami100 = { 1: 80000, 2: 91400, 3: 102800, 4: 114200, 5: 123400 };
+const ami120 = { 1: 96000, 2: 109680, 3: 123360, 4: 137040, 5: 148080 };
+const ami150 = { 1: 120000, 2: 137100, 3: 154200, 4: 171300, 5: 185100 };
+
+function getAMI(size, income) {
+  const s = Math.min(parseInt(size), 5);
+  if (income <= ami80[s]) return { pct: '≤80%', label: 'At or below 80% AMI', tier: 80 };
+  if (income <= ami100[s]) return { pct: '80–100%', label: '80–100% AMI', tier: 100 };
+  if (income <= ami120[s]) return { pct: '100–120%', label: '100–120% AMI', tier: 120 };
+  if (income <= ami150[s]) return { pct: '120–150%', label: '120–150% AMI', tier: 150 };
+  return { pct: '>150%', label: 'Above 150% AMI — limited program eligibility', tier: 999 };
+}
+
+// ── LIVE AMI CALCULATION ───────────────────────────────────────
+function updateAMI() {
+  const size = document.getElementById('hh-size').value;
+  const income = parseFloat(document.getElementById('income').value);
+  const display = document.getElementById('ami-display');
+  const valEl = document.getElementById('ami-value');
+  const subEl = document.getElementById('ami-sub');
+  const btn = document.getElementById('step1-next');
+
+  if (size && income > 0) {
+    const ami = getAMI(size, income);
+    state.hhSize = size;
+    state.income = income;
+    state.amiPct = ami;
+    display.classList.add('visible');
+    valEl.textContent = ami.pct + ' AMI';
+    const s = Math.min(parseInt(size), 5);
+    subEl.textContent = `80% limit: $${ami80[s].toLocaleString()} · 120% limit: $${ami120[s].toLocaleString()} for household of ${size}`;
+    btn.disabled = false;
+  } else {
+    display.classList.remove('visible');
+    btn.disabled = true;
+  }
+}
+
+document.getElementById('hh-size').addEventListener('change', updateAMI);
+document.getElementById('income').addEventListener('input', updateAMI);
+
+// ── OPTION SELECTION ──────────────────────────────────────────
+function selectOption(key, value, el) {
+  state[key] = value;
+  const parent = el.closest('.options-grid, .checkbox-list');
+  parent.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+
+  // Enable next button
+  const stepMap = { ftb: 'step2-next', credit: 'step4-next', assets: 'step5-next' };
+  if (stepMap[key]) document.getElementById(stepMap[key]).disabled = false;
+}
+
+// ── CHECKBOX HANDLING ─────────────────────────────────────────
+document.querySelectorAll('input[name="occupation"]').forEach(cb => {
+  cb.addEventListener('change', function() {
+    if (this.value === 'none' && this.checked) {
+      document.querySelectorAll('input[name="occupation"]').forEach(o => {
+        if (o.value !== 'none') { o.checked = false; o.closest('.checkbox-item').classList.remove('checked'); }
+      });
+    } else if (this.checked) {
+      const noneCb = document.querySelector('input[name="occupation"][value="none"]');
+      noneCb.checked = false;
+      noneCb.closest('.checkbox-item').classList.remove('checked');
+    }
+    this.closest('.checkbox-item').classList.toggle('checked', this.checked);
+
+    const anyChecked = document.querySelectorAll('input[name="occupation"]:checked').length > 0;
+    document.getElementById('step3-next').disabled = !anyChecked;
+
+    const checked = [...document.querySelectorAll('input[name="occupation"]:checked')].map(c => c.value);
+    state.isCP = checked.some(v => ['healthcare','educator','firstresponder','veteran'].includes(v));
+    state.isVet = checked.includes('veteran');
+    state.isDoctor = checked.includes('healthcare');
+  });
+});
+
+// ── NAVIGATION ────────────────────────────────────────────────
+let currentStep = 1;
+
+function goToStep(n) {
+  document.getElementById(`step-${currentStep}`).classList.remove('active');
+  document.getElementById(`prog-${currentStep}`).classList.remove('active');
+  document.getElementById(`prog-${currentStep}`).classList.add('done');
+
+  currentStep = n;
+  document.getElementById(`step-${n}`).classList.add('active');
+  document.getElementById(`prog-${n}`).classList.add('active');
+  document.getElementById(`prog-${n}`).classList.remove('done');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restart() {
+  location.reload();
+}
+
+// ── RESULTS ENGINE ────────────────────────────────────────────
+function showResults() {
+  document.getElementById(`step-${currentStep}`).classList.remove('active');
+  document.querySelectorAll('.progress-step').forEach(p => { p.classList.remove('active'); p.classList.add('done'); });
+  document.getElementById('results').classList.add('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  const { amiPct, ftb, isCP, isVet, isDoctor, credit, assets } = state;
+  const tier = amiPct.tier;
+  const creditOk620 = ['620to639','640to659','660plus'].includes(credit);
+  const creditOk640 = ['640to659','660plus'].includes(credit);
+  const creditOk636 = ['660plus'].includes(credit) || credit === '640to659';
+  const assetsOk = assets !== 'over35k';
+
+  // Programs
+  const eligible = [];
+  const ineligible = [];
+  let totalDPA = 0;
+  let closingCostAssist = 0;
+
+  // ATL HomeNow — 80-120% AMI, 620+, assets ok
+  if (tier <= 120 && tier > 0 && creditOk620 && assetsOk) {
+    eligible.push({
+      name: 'ATL HomeNow',
+      source: 'Invest Atlanta',
+      amount: 20000,
+      terms: 'Loan ≤$180K: forgivable over 5 years (20%/yr). Loan $180K–$325K: repayable when sold/refinanced. Zero interest on DPA.',
+      badge: 'badge-repayable',
+      badgeLabel: tier <= 80 ? 'Forgiven over 5 yrs' : 'Repayable at sale',
+      type: 'green',
+    });
+    totalDPA += 20000;
+  } else if (tier > 120) {
+    ineligible.push({ name: 'ATL HomeNow (Invest Atlanta)', reason: 'Income exceeds 120% AMI limit' });
+  } else if (!creditOk620) {
+    ineligible.push({ name: 'ATL HomeNow (Invest Atlanta)', reason: 'Credit score below 620 minimum' });
+  } else if (!assetsOk) {
+    ineligible.push({ name: 'ATL HomeNow (Invest Atlanta)', reason: 'Liquid assets exceed $25,000 limit' });
+  }
+
+  // Atlanta Housing DPA — ALL applicants must be first-time buyers; CPs get $25K, standard gets $20K
+  if (tier <= 80 && assetsOk) {
+    if (!ftb) {
+      ineligible.push({ name: 'Atlanta Housing DPA', reason: 'Requires first-time homebuyer status (no ownership in past 3 years) — applies to both standard and community partner tracks' });
+    } else {
+      const ahAmt = isCP ? 25000 : 20000;
+      const ahTrack = isCP ? '— Community Partners' : '— Standard';
+      eligible.push({
+        name: `Atlanta Housing DPA ${ahTrack}`,
+        source: 'Atlanta Housing Authority',
+        amount: ahAmt,
+        terms: `Forgiven after 10 years (burn-off starts year 6, 20%/yr). Buyer must contribute $1,500 own funds. Liquid assets must be under $35,000. 8-hour homebuyer education class required. 30-day processing time after lender receives complete credit file.`,
+        badge: 'badge-forgiven',
+        badgeLabel: 'Forgiven after 10 yrs',
+        type: 'green',
+      });
+      totalDPA += ahAmt;
+    }
+  } else if (tier > 80) {
+    ineligible.push({ name: 'Atlanta Housing DPA', reason: 'Income exceeds 80% AMI limit' });
+  } else if (!assetsOk) {
+    ineligible.push({ name: 'Atlanta Housing DPA', reason: 'Liquid assets exceed $35,000 limit' });
+  }
+
+  // Georgia Dream
+  if (creditOk640 && tier <= 150) {
+    const gdAmt = isCP ? 12500 : (ftb ? 10000 : 0);
+    if (gdAmt > 0) {
+      eligible.push({
+        name: `Georgia Dream${isCP ? ' — Community Partners' : ' — First-Time Buyers'}`,
+        source: 'Georgia DCA',
+        amount: gdAmt,
+        terms: 'Repayable when home is sold or refinanced. No monthly payments, no interest. Cannot stack with Peach Plus or Peach Advantage. Cannot stack with Invest Atlanta.',
+        badge: 'badge-repayable',
+        badgeLabel: 'Repayable at sale',
+        type: 'amber',
+      });
+      totalDPA += gdAmt;
+    } else {
+      ineligible.push({ name: 'Georgia Dream', reason: 'Not a first-time buyer or community partner — standard track not available' });
+    }
+  } else if (!creditOk640) {
+    ineligible.push({ name: 'Georgia Dream', reason: 'Credit score below 640 minimum' });
+  }
+
+  // Peach Plus (alternative to Georgia Dream for CPs)
+  if (isCP && creditOk640) {
+    eligible.push({
+      name: 'Peach Plus — Community Partners (alternative to Georgia Dream)',
+      source: 'Georgia DCA / Synovus',
+      amount: 12500,
+      terms: 'Repayable when sold/refinanced (30-yr deferred second lien). Can cover closing costs and principal reduction. Choose this OR Georgia Dream — not both.',
+      badge: 'badge-repayable',
+      badgeLabel: 'Repayable at sale',
+      type: 'amber',
+    });
+  }
+
+  // FHLB — out of money note
+  ineligible.push({ name: 'FHLB Workforce Housing Plus+ ($15,000)', reason: 'Out of funding — not currently available' });
+
+  // Huntington Closing Cost Assistance
+  closingCostAssist = 5500;
+  eligible.push({
+    name: 'Huntington Closing Cost Assistance',
+    source: 'Huntington / Cadence Bank (Joann Smith)',
+    amount: 5500,
+    terms: 'Buyer pays first $500. Huntington covers next $5,500. 1070 Dill Ave confirmed in LMI census tract. Must use a Huntington loan product.',
+    badge: 'badge-closing',
+    badgeLabel: 'Covered at closing',
+    type: 'blue',
+  });
+
+  // Peach Advantage (alternative to Georgia Dream/Peach Plus for higher AMI or non-CP non-FTB)
+  if (creditOk640 && tier <= 150) {
+    eligible.push({
+      name: 'Peach Advantage (alternative to Georgia Dream & Peach Plus)',
+      source: 'Georgia DCA / Lakeview Loan Servicing',
+      amount: null,
+      amtLabel: '2–5% of purchase price',
+      terms: 'Income limits up to 150% AMI — broadest eligibility. Repayable 30-yr deferred second lien. Cannot combine with Georgia Dream or Peach Plus — choose one.',
+      badge: 'badge-repayable',
+      badgeLabel: 'Repayable at sale',
+      type: 'amber',
+    });
+  }
+
+  // Veteran VA loan note
+  if (isVet) {
+    eligible.push({
+      name: 'VA Loan — 0% down (veteran benefit)',
+      source: 'Synovus / any VA-approved lender',
+      amount: null,
+      amtLabel: '0% down',
+      terms: 'No down payment required. No PMI. DPA programs can then be applied toward closing costs instead. Pair with Huntington Closing Cost Assistance ($5,500) for near-zero out of pocket.',
+      badge: 'badge-loan',
+      badgeLabel: 'Loan — repaid over term',
+      type: 'blue',
+    });
+  }
+  // Physician loan note
+  if (isDoctor) {
+    eligible.push({
+      name: 'Physician First Mortgage (0% down)',
+      source: 'Synovus',
+      amount: null,
+      amtLabel: '0% down',
+      terms: 'MD, DO, DDS, DPM, DMD, NP, or NA. 0% down up to $1M. No PMI. Projected income accepted if starting within 90 days.',
+      badge: 'badge-loan',
+      badgeLabel: 'Loan product',
+      type: 'blue',
+    });
+  }
+
+  // ── RENDER RESULTS ─────────────────────────────────────────
+
+  // Input summary
+  document.getElementById('input-summary').innerHTML = `
+    <span>Household of ${state.hhSize}</span>
+    <span>Income: $${state.income.toLocaleString()}</span>
+    <span>AMI: ${amiPct.pct}</span>
+    <span>First-time buyer: ${ftb ? 'Yes' : 'No'}</span>
+    <span>Community partner: ${isCP ? 'Yes' : 'No'}</span>
+    <span>Credit: ${credit.replace('to','–').replace('plus','+').replace('below','Below ')}</span>
+  `;
+
+  // Results header
+  const hasPrograms = eligible.length > 0;
+  const dpaOnly = eligible.filter(p => !['Closing Cost Assistance','Physician','alternative'].some(k => p.name.includes(k)));
+  const realTotal = dpaOnly.reduce((sum, p) => sum + (p.amount || 0), 0);
+
+  document.getElementById('results-header').innerHTML = `
+    <div class="eyebrow">Best available stack</div>
+    ${realTotal > 0 ? `
+      <div class="total-label">Up to</div>
+      <div class="total-amount">$${realTotal.toLocaleString()}</div>
+      <div class="total-sub">in down payment assistance</div>
+      <div class="closing-line">+ $${closingCostAssist.toLocaleString()} in closing cost assistance via Huntington</div>
+    ` : `
+      <div class="total-amount" style="font-size:28px">Limited eligibility</div>
+      <div class="total-sub">Review individual programs below — 0% down financing may still be available</div>
+    `}
+  `;
+
+  // Zero-down section
+  document.getElementById('zero-down-section').innerHTML = `
+    <div class="zero-down-card">
+      <div class="zd-title">Or: $0 down with 100% financing</div>
+      <div class="zd-sub">1070 Dill confirmed in LMI census tract — all three programs apply</div>
+      <div class="zd-items">
+        <div class="zd-item">Huntington Right@Home — 100% financing, no mortgage insurance (Joann Smith)</div>
+        <div class="zd-item">Ameris Bank — two 100% financing programs (Shannon), seller can contribute 3–4% toward closing costs</div>
+        <div class="zd-item">Deanna's program — 100% financing</div>
+        <div class="zd-item">Pair any of the above with $5,500 Huntington closing cost assistance</div>
+      </div>
+    </div>
+  `;
+
+  // Eligible programs
+  const eligibleHtml = eligible.map(p => `
+    <div class="program-card ${p.type}">
+      <div class="prog-info">
+        <div class="prog-name">${p.name}</div>
+        <div class="prog-source">${p.source}</div>
+        <div class="prog-terms">${p.terms}</div>
+      </div>
+      <div class="prog-amount-col">
+        ${p.amount ? `<div class="prog-amount">$${p.amount.toLocaleString()}</div>` : `<div class="prog-amount" style="font-size:16px">${p.amtLabel || '—'}</div>`}
+        <span class="prog-badge ${p.badge}">${p.badgeLabel}</span>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('eligible-programs').innerHTML = eligibleHtml || '<p style="color:var(--muted);font-size:13px">No programs currently confirmed eligible based on inputs.</p>';
+
+  // Ineligible
+  if (ineligible.length > 0) {
+    document.getElementById('ineligible-section').innerHTML = `
+      <div class="programs-section">
+        <div class="programs-section-title">Not eligible / not available</div>
+        ${ineligible.map(p => `
+          <div class="not-eligible">
+            <div class="prog-name">${p.name}</div>
+            <div class="prog-reason">${p.reason}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  // Caveats
+  document.getElementById('caveats-section').innerHTML = `
+    <div class="caveats-title">Important notes</div>
+    <div class="caveat-item">Georgia Dream cannot be stacked with Invest Atlanta — buyer must choose one.</div>
+    <div class="caveat-item">Peach Plus and Georgia Dream are mutually exclusive — choose one.</div>
+    <div class="caveat-item">ATL HomeNow: if loan is ≤$180K the DPA is forgivable. If $180K–$325K, it's repayable at sale (no interest, no monthly payments).</div>
+    <div class="caveat-item">Invest Atlanta interest rate matrix applies to loans over $180K — rates increase with higher DPA amounts.</div>
+    <div class="caveat-item">Atlanta Housing DPA requires first-time homebuyer status for both the standard ($20K) and community partner ($25K) tracks.</div>
+    <div class="caveat-item">Atlanta Housing DPA liquid assets cap is $35,000 (not $25K). Buyer must also contribute at least $1,500 of own funds.</div>
+    <div class="caveat-item">All amounts and eligibility subject to lender approval and program availability. Confirm with Diana before presenting to buyer.</div>
+  `;
+
+  // Next steps
+  document.getElementById('next-steps-section').innerHTML = `
+    <div class="ns-title">Next steps</div>
+    <div class="ns-item"><span class="ns-num">1</span>Share these results with Diana Dandridge — she'll confirm which programs the buyer actually qualifies for and connect them with the right lender.</div>
+    <div class="ns-item"><span class="ns-num">2</span>Diana: diana@dianadandridge.com · (901) 299-0364</div>
+    <div class="ns-item"><span class="ns-num">3</span>Huntington/Cadence (closing cost assistance + Right@Home): Joann Smith · joann.smith@cadencebank.com · (404) 988-8218</div>
+  `;
+}
+</script>
+</body>
+</html>
